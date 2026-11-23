@@ -36,3 +36,18 @@ describe('firstName', () => {
     expect(firstName('')).toBeNull();
   });
 });
+
+describe('formatMoney default currency', () => {
+  it("uses the build's EXPO_PUBLIC_CURRENCY when a response carries none", async () => {
+    vi.resetModules();
+    vi.stubEnv('EXPO_PUBLIC_CURRENCY', 'USD');
+    try {
+      const { formatMoney: built } = await import('./format');
+      expect(built('12.5', 'en')).toBe('$12.50');
+      expect(built('12.5', 'en', 'EGP')).toBe('EGP\u00a012.50');
+    } finally {
+      vi.unstubAllEnvs();
+      vi.resetModules();
+    }
+  });
+});

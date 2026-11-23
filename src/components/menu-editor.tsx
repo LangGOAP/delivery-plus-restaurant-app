@@ -26,6 +26,7 @@ import { pickImage, uploadToPresigned } from '@/utils/image-upload';
 import { reloadMenu } from '@/state/restaurant';
 import { DESCRIPTION_MAX, NAME_MAX, draftFromItem, parsePrice, sortCategories, validateItemDraft, type ItemDraftInput } from '@/utils/menu-editor';
 import { t } from '@/i18n';
+import { DEFAULT_CURRENCY } from '@/utils/format';
 
 const errorMessage = (caught: unknown, fallback: string) => (caught instanceof ApiError ? caught.message : fallback);
 
@@ -113,7 +114,7 @@ export function ItemSheet({ restaurantId, categories, item, categoryId, onClose,
       />
       <FormTextInput
         testID="item-editor-price"
-        label={t('Price (EGP)')}
+        label={t('Price ({currency})', { currency: DEFAULT_CURRENCY })}
         value={draft.price}
         onChangeText={(price) => set({ price })}
         keyboardType="decimal-pad"
